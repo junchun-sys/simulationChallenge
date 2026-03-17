@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -61,14 +61,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="index_files/libs/clipboard/clipboard.min.js"></script>
 <script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="index_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="index_files/libs/quarto-html/popper.min.js"></script>
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="index_files/libs/quarto-html/anchor.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -107,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-📋 What You Need To Do
+<span class="screen-reader-only">Important</span>📋 What You Need To Do
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -127,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-🐍 Python Environment Setup
+<span class="screen-reader-only">Note</span>🐍 Python Environment Setup
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -142,9 +143,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>Then open a terminal and install dependencies:</p>
 <p><strong>Windows:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">py</span> <span class="at">-m</span> pip install jupyter matplotlib pandas daft-pgm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">py</span> <span class="at">-m</span> pip install jupyter matplotlib pandas daft-pgm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Mac:</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install jupyter matplotlib pandas daft-pgm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install jupyter matplotlib pandas daft-pgm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This ensures you have everything needed for Quarto rendering and the DAG visualizations.</p>
 </div>
 </div>
@@ -154,7 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-⚠️ AI Partnership Required
+<span class="screen-reader-only">Warning</span>⚠️ AI Partnership Required
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -167,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-📊 Grading Criteria
+<span class="screen-reader-only">Important</span>📊 Grading Criteria
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -184,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-📝 How to Present Your Analysis
+<span class="screen-reader-only">Tip</span>📝 How to Present Your Analysis
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -232,11 +233,52 @@ Figure&nbsp;1: Generative DAG model for the investment game showing how wealth e
 <h2 class="anchored" data-anchor-id="analysis-tasks-fill-these-in">Analysis Tasks (Fill These In)</h2>
 <section id="expected-value-after-1-flip" class="level3">
 <h3 class="anchored" data-anchor-id="expected-value-after-1-flip">1) Expected Value After 1 Flip</h3>
-<p>Explain whether the expected value of your account balance after one flip is greater than, equal to, or less than $30,000. What is the gain in expected value as a percentage of your buy-in? Based on this simple analysis, state whether you would recommend buying into the game and why.</p>
+<p>The expected value of your account balance after one flip is <strong>greater than</strong> $30,000.</p>
+<p>After one flip, the expected account balance is <strong>$31,500</strong>, which is <strong>5%</strong> higher than the $30,000 buy-in. So for every dollar you put in, you expect about $1.05 after one flip, on average.Based on expected value alone, this looks like a favorable gamble. If I only looked at one period, I would be inclined to buy in because the average outcome is positive.</p>
+<p>Here is the detailed calculation in 3 steps:</p>
+<div id="q1-expected-value-py" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-stdout">
+<pre><code>Step 1 — Outcomes after one flip:
+  Buy-in:           $30,000
+  If heads (+50%):  $45,000
+  If tails (-40%):  $18,000
+
+Step 2 — Expected value (probability × outcome, then sum):
+  0.5 × $45,000  =  $22,500
+  0.5 × $18,000  =  $9,000
+  EV             =  $31,500
+
+Step 3 — Gain (EV − buy-in):
+  Gain = $31,500 − $30,000 = $1,500  (5.0% of buy-in)
+
+Verdict: EV &gt; buy-in → positive expected value → recommend buy-in.</code></pre>
+</div>
+</div>
 </section>
 <section id="single-simulation-over-time-narrative-plot" class="level3">
 <h3 class="anchored" data-anchor-id="single-simulation-over-time-narrative-plot">2) Single Simulation Over Time (Narrative + Plot)</h3>
-<p>Narrate and visualize what happens to your account balance over the course of one simulation run. Describe the trajectory and state whether you would be satisfied with this particular outcome. Explain your reasoning.</p>
+<p>We pretend to play the game once, from start to finish. Every year we flip a coin: heads = balance goes up 50%, tails = balance goes down 40%. We start with $30,000 and play for 40 years. The graph below shows what happened in <em>this one</em> imaginary run—like watching one person’s account over time.</p>
+<div id="cell-q2-single-sim-py" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div id="q2-single-sim-py" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="index_files/figure-html/q2-single-sim-py-output-1.png" width="950" height="470" class="figure-img"></p>
+<figcaption>One possible path: account balance year by year (green = above buy-in, red = below)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>What you see on the graph:</strong></p>
+<ul>
+<li><strong>Blue line</strong> = your balance each year in this one run.</li>
+<li><strong>Green shading</strong> = years when you were above your $30,000 buy-in (you’re “ahead”).</li>
+<li><strong>Red shading</strong> = years when you were below $30,000 (you’re “behind”).</li>
+<li><strong>Start</strong> and <strong>End</strong> dots show where you began and where you finished.</li>
+<li><strong>Peak</strong> and <strong>Low</strong> show the best and worst your balance ever got in this run.</li>
+</ul>
+<p><strong>Result of this run:</strong> After 40 years, this single simulation ends at <strong>$22,796</strong>.</p>
+<p>In one simulated run, the account balance was very volatile and ultimately disappointing. Although there were some gains along the way, several losses had a compounding effect that the later gains could not fully overcome. The account finished at about $22,796, which is about <strong>24%</strong> below the original $30,000 buy-in. I would not be satisfied with this outcome, because despite the positive expected value in a single year, this particular long-run path destroyed about 24% of the initial investment.</p>
+<p>This single run shows the central tension of the game: the upside is large, but repeated exposure to downside shocks can erode wealth dramatically over time.</p>
 </section>
 <section id="simulations-distribution-of-final-balances" class="level3">
 <h3 class="anchored" data-anchor-id="simulations-distribution-of-final-balances">3) 100 Simulations: Distribution of Final Balances</h3>
@@ -339,13 +381,14 @@ Figure&nbsp;1: Generative DAG model for the investment game showing how wealth e
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

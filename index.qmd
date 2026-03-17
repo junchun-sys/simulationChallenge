@@ -177,11 +177,11 @@ print("Verdict: EV > buy-in → positive expected value → recommend buy-in.")
 
 ### 2) Single Simulation Over Time (Narrative + Plot)
 
-Narrate and visualize what happens to your account balance over the course of one simulation run. Describe the trajectory and state whether you would be satisfied with this particular outcome. Explain your reasoning.
+We pretend to play the game once, from start to finish. Every year we flip a coin: heads = balance goes up 50%, tails = balance goes down 40%. We start with $30,000 and play for 40 years. The graph below shows what happened in *this one* imaginary run—like watching one person’s account over time.
 
 ```{python}
 #| label: q2-single-sim-py
-#| fig-cap: "Single simulation path of account balance"
+#| fig-cap: "One possible path: account balance year by year (green = above buy-in, red = below)"
 #| echo: false
 
 import numpy as np
@@ -189,34 +189,67 @@ import matplotlib.pyplot as plt
 
 np.random.seed(42)
 buy_in = 30_000
-n_years = 40   # play annually until age 75 (e.g., from 35 to 75)
+n_years = 40
 balances = [buy_in]
 balance = buy_in
 for _ in range(n_years):
-    if np.random.random() < 0.5:   # heads: +50%
+    if np.random.random() < 0.5:
         balance *= 1.50
-    else:                           # tails: -40%
+    else:
         balance *= 0.60
     balances.append(balance)
 
 final_balance = round(balances[-1])
+balances_arr = np.array(balances)
 years = np.arange(len(balances))
 
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(years, balances, color="steelblue", linewidth=1.5)
-ax.axhline(y=buy_in, color="gray", linestyle="--", alpha=0.7, label=f"Buy-in ${buy_in:,}")
-ax.set_xlabel("Year")
+fig, ax = plt.subplots(figsize=(10, 5))
+
+# Shade above vs below buy-in so the story is easy to see
+ax.fill_between(years, buy_in, balances_arr, where=(balances_arr >= buy_in), color="green", alpha=0.2, label="Above $30k")
+ax.fill_between(years, balances_arr, buy_in, where=(balances_arr < buy_in), color="red", alpha=0.2, label="Below $30k")
+ax.axhline(y=buy_in, color="gray", linestyle="--", linewidth=1.5, alpha=0.8, label=f"Buy-in ${buy_in:,}")
+
+# Main path
+ax.plot(years, balances, color="steelblue", linewidth=2, zorder=3)
+
+# Call out start and end
+ax.scatter([0], [buy_in], color="darkgreen", s=80, zorder=4, edgecolors="white", linewidths=2)
+ax.annotate(f"Start\n${buy_in:,}", (0, buy_in), xytext=(5, 15), textcoords="offset points", fontsize=9, fontweight="bold")
+ax.scatter([n_years], [balances[-1]], color="darkblue", s=80, zorder=4, edgecolors="white", linewidths=2)
+ax.annotate(f"End\n${final_balance:,}", (n_years, balances[-1]), xytext=(-5, 15), textcoords="offset points", fontsize=9, fontweight="bold", ha="right")
+
+# Optional: peak and low so the range is clear
+peak_idx = np.argmax(balances_arr)
+low_idx = np.argmin(balances_arr)
+ax.scatter([peak_idx], [balances[peak_idx]], color="gold", s=60, zorder=4, marker="^", edgecolors="black", linewidths=1)
+ax.annotate(f"Peak ${balances[peak_idx]:,.0f}", (peak_idx, balances[peak_idx]), xytext=(0, 12), textcoords="offset points", fontsize=8, alpha=0.9)
+ax.scatter([low_idx], [balances[low_idx]], color="darkred", s=60, zorder=4, marker="v", edgecolors="black", linewidths=1)
+ax.annotate(f"Low ${balances[low_idx]:,.0f}", (low_idx, balances[low_idx]), xytext=(0, -14), textcoords="offset points", fontsize=8, alpha=0.9)
+
+ax.set_xlabel("Year (0 = start, 40 = end)")
 ax.set_ylabel("Account balance ($)")
-ax.set_title("Account Balance Over One Simulation Run")
-ax.legend()
+ax.set_title("Account Balance Over One Simulation Run from $30,000 to Age 75")
+ax.legend(loc="upper right", fontsize=8)
 ax.grid(True, alpha=0.3)
+ax.set_xlim(-1, n_years + 1)
 fig.tight_layout()
 plt.show()
 ```
 
-**Narrative:** In this single run (seed 42), the account starts at $30,000 and evolves year by year according to the coin flips. The path is volatile: some years the balance grows by 50%, others it shrinks by 40%. In this particular simulation, the final balance after 40 years is **$`{python} format(final_balance, ',')`**.
+**What you see on the graph:**
 
-**Would I be satisfied?** That depends entirely on whether this run ended above or below the buy-in. If the final balance is above $30,000, I would be satisfied with *this* outcome—I recovered my stake and gained. If it is below $30,000, I would not be satisfied with this outcome; the same rules that sometimes deliver large gains have, in this single path, left me with less than I put in. One simulation does not tell us whether the *game* is good—only what one possible world looks like. So I would not base my buy-in decision on this single trajectory; I would want to see the distribution of outcomes (Sections 3–4) before deciding.
+- **Blue line** = your balance each year in this one run.
+- **Green shading** = years when you were above your $30,000 buy-in (you’re “ahead”).
+- **Red shading** = years when you were below $30,000 (you’re “behind”).
+- **Start** and **End** dots show where you began and where you finished.
+- **Peak** and **Low** show the best and worst your balance ever got in this run.
+
+**Result of this run:** After 40 years, this single simulation ends at **$`{python} format(final_balance, ',')`**.
+
+In one simulated run, the account balance was very volatile and ultimately disappointing. Although there were some gains along the way, several losses had a compounding effect that the later gains could not fully overcome. The account finished at about $22,796, which is about **24%** below the original $30,000 buy-in. I would not be satisfied with this outcome, because despite the positive expected value in a single year, this particular long-run path destroyed about 24% of the initial investment.
+
+This single run shows the central tension of the game: the upside is large, but repeated exposure to downside shocks can erode wealth dramatically over time.
 
 ### 3) 100 Simulations: Distribution of Final Balances
 
