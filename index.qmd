@@ -1,6 +1,6 @@
 ---
 title: "Simulation Challenge"
-subtitle: "Starter Template with To-Dos"
+
 jupyter: python3
 format:
   html: default
@@ -8,75 +8,6 @@ execute:
   echo: false
   eval: true
 ---
-
-# 🎲 Simulation Challenge - Starter Template
-
-:::: {.callout-important}
-## 📋 What You Need To Do
-
-- [ ] Fork [this repository](https://github.com/flyaflya/simulationChallenge) to create `simulationChallenge` in your GitHub
-- [ ] Clone locally and open in Cursor
-- [ ] Write your analysis in this `index.qmd`
-- [ ] Render to HTML (`quarto render` or Render button)
-- [ ] Push HTML to your repo and enable GitHub Pages
-- [ ] Share your site: `https://[your-username].github.io/simulationChallenge/`
-::::
-
-:::: {.callout-note}
-## 🐍 Python Environment Setup
-
-Before rendering, create a fresh virtual environment and install the required packages:
-
-1. Press `Ctrl+Shift+P` to open the Command Palette
-2. Type **"Python: Select Interpreter"** and select it
-3. Click **"+ Create Virtual Environment..."**
-4. Choose **Venv**
-5. Select your Python installation (e.g., Python 3.12)
-6. Wait for the environment to be created and activated
-
-Then open a terminal and install dependencies:
-
-**Windows:**
-```bash
-py -m pip install jupyter matplotlib pandas daft-pgm
-```
-
-**Mac:**
-```bash
-python3 -m pip install jupyter matplotlib pandas daft-pgm
-```
-
-This ensures you have everything needed for Quarto rendering and the DAG visualizations.
-::::
-
-:::: {.callout-warning}
-## ⚠️ AI Partnership Required
-Use Cursor AI for speed, but ensure you understand and can explain the results in your own words.  Verify cursor's calculations as investment simulation is tricky.
-::::
-
-:::: {.callout-important}
-## 📊 Grading Criteria
-
-- **Sections 1–4:** Required. These sections can earn up to **90%** of the grade.
-- **Sections 5–6:** Optional stretch. Strong, well-supported work here can bring your score up to **100%**.
-
-**Your grade depends on narrative clarity and insight, not just correct calculations.** Present a persuasive argument for or against the investment, supported by your analysis.
-::::
-
-:::: {.callout-tip}
-## 📝 How to Present Your Analysis
-
-Your analysis should read as a **persuasive narrative** arguing for or against the investment. Use data and calculations to support your argument, but present findings **inline in prose**—not as raw code output.
-
-- **Round figures** for readability (whole dollars for balances, 2-3 decimals for probabilities)
-- **Interpret results** in your own words outside of code chunks
-- Use Quarto inline code (e.g., `` `{{python}} round(ev, 0)` ``) or type values directly
-
-**Example:** Instead of printing `36000.0` from code, write:
-
-> *"After one flip, the expected account balance is $36,000—a 20% increase over the initial $30,000 buy-in. This positive expected value suggests the game is favorable; if you can place this bet infinite times, you will on average end up with $6,000 gain for each time you bet $30,000.  Note: this is an interpretation for a slighlty different game."*
-::::
-
 ## The Investment Game (Brief)
 
 You have the opportunity to buy-in to this game next week with $30,000. Your job is to analyze the potential outcomes of the game and communicate why you should or should not buy-in.  
@@ -124,8 +55,7 @@ investmentDAG.add_plate([-2, 0.5, 7.8, 1.0], label="t = 1, ..., N", shift=-0.1)
 #| echo: false
 investmentDAG.show()
 ```
-
-## Analysis Tasks (Fill These In)
+## Analysis
 
 ### 1) Expected Value After 1 Flip
 
@@ -251,8 +181,8 @@ In one simulated run, the account balance was very volatile and ultimately disap
 
 This single run shows the central tension of the game: the upside is large, but repeated exposure to downside shocks can erode wealth dramatically over time.
 
-### 3) Monte Carlo: Distribution of Final Balances (5,000 runs)
-Across 100 simulations, the final balances are usually highly right-skewed.
+### 3) 100 Simulations: Distribution of Final Balances
+ The distribution of final balances across 100 simulations is highly right-skewed. Most simulations result in relatively low final balances, while a small number produce very large outcomes. The mean final balance is approximately $60,741, while the median is only about $2,154, indicating that typical outcomes are much worse than the average suggests. The mean is misleading because it is driven by a few extreme outcomes. Out of 100 simulations, only 22 ended with more than the initial $30,000 investment, giving a probability of 0.220. I would not be satisfied with these likely outcomes, because the majority of scenarios result in losses or minimal returns despite the high average driven by a few extreme gains. The median is a more realistic estimate of the typical outcome, and it is much more likely to be achieved in a single run.
 
 ```{python}
 #| label: q3-dist-100-py
@@ -330,7 +260,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-The distribution of final balances across 100 simulations is highly skewed. Most simulations result in relatively low final balances, while a small number produce very large outcomes. The mean final balance is approximately $60,741, while the median is only about $2,154, indicating that typical outcomes are much worse than the average suggests. The mean is misleading because it is driven by a few extreme outcomes. Out of 100 simulations, only 22 ended with more than the initial $30,000 investment, giving a probability of 0.220. I would not be satisfied with these likely outcomes, because the majority of scenarios result in losses or minimal returns despite the high average driven by a few extreme gains. The median is a more realistic estimate of the typical outcome, and it is much more likely to be achieved in a single run.
 
 ### 4) Probability Balance > $30,000 at Age 75 (Original Game)
 
@@ -394,7 +323,9 @@ The probability that the final balance exceeds $30,000 is approximately 0.220, o
 
 ### 5) Modified Strategy (Bet Exactly 25% Each Round)
 
-The modified 25% strategy is less risky than the original game because only part of the account balance is exposed each year. In the histograms, the original strategy shows much greater spread and more extreme outcomes, indicating substantially higher volatility. It also has the better upside, since a few simulations produce very large final balances. However, those extreme winners are rare. The 25% strategy produces a more concentrated distribution and a higher probability of finishing above the initial $30,000. For that reason, I would recommend the 25% strategy. It gives up some extreme upside, but it provides a much more favorable balance between growth and long-run survival.
+The modified 25% strategy is less risky than the original game because only part of the account balance is exposed each year. In the histograms, the original strategy shows much greater spread and more extreme outcomes, indicating substantially higher volatility. It also has the better upside, since a few simulations produce very large final balances. However, those extreme winners are rare. 
+
+The 25% strategy produces a more concentrated distribution and a higher probability of finishing above the initial $30,000. For that reason, I would recommend the 25% strategy. It gives up some extreme upside, but it provides a much more favorable balance between growth and long-run survival.
 
 ```{python}
 #| label: q5-modified-25pct-py
@@ -520,29 +451,11 @@ print(f"25% strategy:      mean = ${mod_mean:,.0f}, median = ${mod_median:,.0f},
 
 ### 6) The Kelly Criterion
 
-Explain what the Kelly Criterion is and how it relates to the modified strategy from Section 5. Does the Kelly Criterion support your recommendation?
+The Kelly Criterion is a method used to determine the optimal fraction of wealth to invest in a repeated gamble in order to maximize long-run growth. Unlike strategies that focus only on expected value, the Kelly Criterion accounts for compounding and risk, ensuring that the investor avoids large losses that can significantly reduce future growth potential.
 
+In this investment game, applying the Kelly Criterion shows that the optimal fraction to bet each round is 25% of the current balance. This directly corresponds to the modified strategy analyzed in Section 5.
 
-## Professional Presentation
+The Kelly Criterion supports my recommendation. While the original strategy exposes the entire balance to risk and produces highly volatile outcomes, the 25% strategy provides a better balance between growth and risk. It leads to more stable outcomes and a higher probability of finishing above the initial investment. Therefore, the Kelly Criterion confirms that the modified strategy is the more appropriate choice for long-term investing.
 
-- **Clear narrative:** tell the story succinctly (aim for a 1–5 minute read)
-- **Focus on insights:** risk profiles, counter-intuitive results, practical implications
-- **Professional style:** concise writing, clean visuals, hide code where appropriate (`echo: false`)
-- **Human interpretation:** explain what results mean for real decisions
-
-## Submission Checklist ✅
-
-- [ ] Quarto document written with narrative and results
-- [ ] Rendered to HTML successfully
-- [ ] Repository `simulationChallenge` created on GitHub
-- [ ] HTML committed and pushed
-- [ ] GitHub Pages enabled (Deploy from a branch → main → /(root))
-- [ ] Site accessible at `https://[your-username].github.io/simulationChallenge/`
-
-## Tips
-
-- Set random seeds for reproducibility
-- Use object-oriented plotting with `matplotlib`
-- Keep figures readable and labeled; prefer professional styling
-- Commit early and often; render locally before pushing
-
+## Conclusion
+I would not recommend participating in the original version of the game, where the full balance is at risk each year, because the probability of achieving a positive outcome is low. However, if participation were required, the modified strategy of betting 25% of the balance each round is clearly preferable. It reduces risk, improves typical outcomes, and is supported by the Kelly Criterion as the optimal long-run strategy.
