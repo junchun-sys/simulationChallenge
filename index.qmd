@@ -105,9 +105,9 @@ print()
 print("Verdict: EV > buy-in → positive expected value → recommend buy-in.")
 ```
 
-### 2) Single Simulation Over Time (Narrative + Plot)
+### 2) Single Simulation Over Time 
 
-We pretend to play the game once, from start to finish. Every year we flip a coin: heads = balance goes up 50%, tails = balance goes down 40%. We start with $30,000 and play for 40 years. The graph below shows what happened in *this one* imaginary run—like watching one person’s account over time.
+We pretend to play the game once, from start to finish. Every year we flip a coin: heads = balance goes up 50%, tails = balance goes down 40%. We start with $30,000 and play for 40 years. The graph below shows what happened in *this one* imaginary simulation run.
 
 ```{python}
 #| label: q2-single-sim-py
