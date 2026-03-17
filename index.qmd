@@ -129,16 +129,50 @@ investmentDAG.show()
 
 ### 1) Expected Value After 1 Flip
 
-Explain whether the expected value of your account balance after one flip is greater than, equal to, or less than $30,000. What is the gain in expected value as a percentage of your buy-in? Based on this simple analysis, state whether you would recommend buying into the game and why.
+The expected value of your account balance after one flip is **greater than** $30,000. 
+
+After one flip, the expected account balance is **$31,500**, which is **5%** higher than the $30,000 buy-in. So for every dollar you put in, you expect about $1.05 after one flip, on average.Based on expected value alone, this looks like a favorable gamble. If I only looked at one period, I would be inclined to buy in because the average outcome is positive.
+
+Here is the detailed calculation in 3 steps:
+
 
 ```{python}
 #| label: q1-expected-value-py
 
 # Compute the expected value after one coin flip.
 # Round monetary values to whole dollars; percentages to 1 decimal.
-# Present your findings OUTSIDE this chunk in narrative prose.
-# Example: "The expected value is $36,000, a 20.0% gain over the buy-in."
 
+buy_in = 30_000
+p_heads = 0.5
+after_heads = buy_in * 1.50   # +50%
+after_tails = buy_in * 0.60   # -40%
+
+# EV = P(heads)*outcome_heads + P(tails)*outcome_tails
+contrib_heads = p_heads * after_heads
+contrib_tails = (1 - p_heads) * after_tails
+ev_one_flip = contrib_heads + contrib_tails
+
+# Gain = how much more you expect than you put in
+gain_dollars = ev_one_flip - buy_in
+gain_pct = 100 * (gain_dollars / buy_in)
+
+ev_rounded = round(ev_one_flip)
+gain_pct_rounded = round(gain_pct, 1)
+
+print("Step 1 — Outcomes after one flip:")
+print(f"  Buy-in:           ${buy_in:,}")
+print(f"  If heads (+50%):  ${after_heads:,.0f}")
+print(f"  If tails (-40%):  ${after_tails:,.0f}")
+print()
+print("Step 2 — Expected value (probability × outcome, then sum):")
+print(f"  0.5 × $45,000  =  ${contrib_heads:,.0f}")
+print(f"  0.5 × $18,000  =  ${contrib_tails:,.0f}")
+print(f"  EV             =  ${ev_rounded:,}")
+print()
+print("Step 3 — Gain (EV − buy-in):")
+print(f"  Gain = ${ev_rounded:,} − ${buy_in:,} = ${round(gain_dollars):,}  ({gain_pct_rounded}% of buy-in)")
+print()
+print("Verdict: EV > buy-in → positive expected value → recommend buy-in.")
 ```
 
 ### 2) Single Simulation Over Time (Narrative + Plot)
@@ -148,15 +182,41 @@ Narrate and visualize what happens to your account balance over the course of on
 ```{python}
 #| label: q2-single-sim-py
 #| fig-cap: "Single simulation path of account balance"
+#| echo: false
 
-# Simulate one path from $30,000 over N periods.
-# Use matplotlib (Object Oriented style) for the time-series plot.
-# Set a random seed for reproducibility.
-# Round final balance to whole dollars in your narrative.
-# Present your interpretation OUTSIDE this chunk—describe the trajectory
-# and whether you would be satisfied with this outcome.
+import numpy as np
+import matplotlib.pyplot as plt
 
+np.random.seed(42)
+buy_in = 30_000
+n_years = 40   # play annually until age 75 (e.g., from 35 to 75)
+balances = [buy_in]
+balance = buy_in
+for _ in range(n_years):
+    if np.random.random() < 0.5:   # heads: +50%
+        balance *= 1.50
+    else:                           # tails: -40%
+        balance *= 0.60
+    balances.append(balance)
+
+final_balance = round(balances[-1])
+years = np.arange(len(balances))
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(years, balances, color="steelblue", linewidth=1.5)
+ax.axhline(y=buy_in, color="gray", linestyle="--", alpha=0.7, label=f"Buy-in ${buy_in:,}")
+ax.set_xlabel("Year")
+ax.set_ylabel("Account balance ($)")
+ax.set_title("Account Balance Over One Simulation Run")
+ax.legend()
+ax.grid(True, alpha=0.3)
+fig.tight_layout()
+plt.show()
 ```
+
+**Narrative:** In this single run (seed 42), the account starts at $30,000 and evolves year by year according to the coin flips. The path is volatile: some years the balance grows by 50%, others it shrinks by 40%. In this particular simulation, the final balance after 40 years is **$`{python} format(final_balance, ',')`**.
+
+**Would I be satisfied?** That depends entirely on whether this run ended above or below the buy-in. If the final balance is above $30,000, I would be satisfied with *this* outcome—I recovered my stake and gained. If it is below $30,000, I would not be satisfied with this outcome; the same rules that sometimes deliver large gains have, in this single path, left me with less than I put in. One simulation does not tell us whether the *game* is good—only what one possible world looks like. So I would not base my buy-in decision on this single trajectory; I would want to see the distribution of outcomes (Sections 3–4) before deciding.
 
 ### 3) 100 Simulations: Distribution of Final Balances
 
