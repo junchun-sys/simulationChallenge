@@ -394,19 +394,128 @@ The probability that the final balance exceeds $30,000 is approximately 0.220, o
 
 ### 5) Modified Strategy (Bet Exactly 25% Each Round)
 
-Instead of having the full balance at risk with each coin flip, assume only 25% of your balance is gambled each year. Compare this modified strategy to the original game: Which is riskier? Which has better upside? Which strategy would you recommend and why?
+The modified 25% strategy is less risky than the original game because only part of the account balance is exposed each year. In the histograms, the original strategy shows much greater spread and more extreme outcomes, indicating substantially higher volatility. It also has the better upside, since a few simulations produce very large final balances. However, those extreme winners are rare. The 25% strategy produces a more concentrated distribution and a higher probability of finishing above the initial $30,000. For that reason, I would recommend the 25% strategy. It gives up some extreme upside, but it provides a much more favorable balance between growth and long-run survival.
 
 ```{python}
 #| label: q5-modified-25pct-py
-#| fig-cap: "Modified strategy distribution (bet 25% each round)"
+#| fig-cap: "Comparison of final balance distributions: original strategy vs. betting 25% each round"
+#| echo: false
 
-# Implement the modified game where only 25% of your balance is at risk each flip.
-# Run 100 simulations and plot the distribution of final balances.
-# Estimate P(final > $30,000) and compare to the original strategy.
-# Visually compare outcome distributions of both strategies.
-# Round balances to whole dollars; probabilities to 2-3 decimals.
-# Present your comparison and recommendation OUTSIDE this chunk in narrative form.
+import numpy as np
+import matplotlib.pyplot as plt
 
+# ----------------------------
+# 1. Reproducibility
+# ----------------------------
+np.random.seed(42)
+
+# ----------------------------
+# 2. Parameters
+# ----------------------------
+INITIAL_BALANCE = 30000
+N_SIMS = 100
+N_YEARS = 50   # replace with (75 - your age) if needed
+
+# ----------------------------
+# 3. Simulation functions
+# ----------------------------
+def simulate_original(balance, years):
+    """Original game: full balance at risk each year."""
+    for _ in range(years):
+        if np.random.rand() < 0.5:
+            balance *= 1.5      # +50%
+        else:
+            balance *= 0.6      # -40%
+    return balance
+
+def simulate_modified(balance, years):
+    """Modified game: only 25% of balance is gambled each year."""
+    for _ in range(years):
+        if np.random.rand() < 0.5:
+            balance *= 1.125    # 25% * 50% = +12.5%
+        else:
+            balance *= 0.9      # 25% * 40% = -10%
+    return balance
+
+# ----------------------------
+# 4. Run simulations
+# ----------------------------
+original_balances = np.array([simulate_original(INITIAL_BALANCE, N_YEARS) for _ in range(N_SIMS)])
+modified_balances = np.array([simulate_modified(INITIAL_BALANCE, N_YEARS) for _ in range(N_SIMS)])
+
+# ----------------------------
+# 5. Summary statistics
+# ----------------------------
+orig_mean = round(float(np.mean(original_balances)), 0)
+orig_median = round(float(np.median(original_balances)), 0)
+orig_prob = round(float(np.mean(original_balances > INITIAL_BALANCE)), 3)
+
+mod_mean = round(float(np.mean(modified_balances)), 0)
+mod_median = round(float(np.median(modified_balances)), 0)
+mod_prob = round(float(np.mean(modified_balances > INITIAL_BALANCE)), 3)
+
+# ----------------------------
+# 6. Trim only for plotting readability
+#    Keep all data for statistics above
+# ----------------------------
+combined = np.concatenate([original_balances, modified_balances])
+xmax = np.percentile(combined, 95)
+
+orig_plot = original_balances[original_balances <= xmax]
+mod_plot = modified_balances[modified_balances <= xmax]
+
+bins = np.linspace(0, xmax, 18)
+
+# ----------------------------
+# 7. Side-by-side histograms
+# ----------------------------
+fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
+
+# Original strategy
+axes[0].hist(orig_plot, bins=bins, edgecolor="black", alpha=0.75)
+axes[0].axvline(INITIAL_BALANCE, linestyle="--", linewidth=2, color="red", label="Initial = $30,000")
+axes[0].axvline(orig_mean, linestyle="-", linewidth=2, color="green", label=f"Mean = ${orig_mean:,.0f}")
+axes[0].axvline(orig_median, linestyle=":", linewidth=3, color="blue", label=f"Median = ${orig_median:,.0f}")
+axes[0].set_title("Original Strategy")
+axes[0].set_xlabel("Final Balance")
+axes[0].set_ylabel("Number of Simulations")
+axes[0].legend(fontsize=9)
+axes[0].text(
+    0.98, 0.95,
+    f"P(Final > $30,000) = {orig_prob:.3f}",
+    transform=axes[0].transAxes,
+    ha="right",
+    va="top",
+    fontsize=10,
+    bbox=dict(boxstyle="round", facecolor="white", edgecolor="black")
+)
+
+# Modified strategy
+axes[1].hist(mod_plot, bins=bins, edgecolor="black", alpha=0.75)
+axes[1].axvline(INITIAL_BALANCE, linestyle="--", linewidth=2, color="red", label="Initial = $30,000")
+axes[1].axvline(mod_mean, linestyle="-", linewidth=2, color="green", label=f"Mean = ${mod_mean:,.0f}")
+axes[1].axvline(mod_median, linestyle=":", linewidth=3, color="blue", label=f"Median = ${mod_median:,.0f}")
+axes[1].set_title("25% Strategy")
+axes[1].set_xlabel("Final Balance")
+axes[1].legend(fontsize=9)
+axes[1].text(
+    0.98, 0.95,
+    f"P(Final > $30,000) = {mod_prob:.3f}",
+    transform=axes[1].transAxes,
+    ha="right",
+    va="top",
+    fontsize=10,
+    bbox=dict(boxstyle="round", facecolor="white", edgecolor="black")
+)
+
+plt.tight_layout()
+plt.show()
+
+# ----------------------------
+# 8. Optional clean printed comparison
+# ----------------------------
+print(f"Original strategy: mean = ${orig_mean:,.0f}, median = ${orig_median:,.0f}, P(> $30,000) = {orig_prob:.3f}")
+print(f"25% strategy:      mean = ${mod_mean:,.0f}, median = ${mod_median:,.0f}, P(> $30,000) = {mod_prob:.3f}")
 ```
 
 ### 6) The Kelly Criterion
