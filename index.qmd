@@ -8,7 +8,7 @@ execute:
   echo: false
   eval: true
 ---
-## The Investment Game (Brief)
+## The Investment Game 
 
 You have the opportunity to buy-in to this game next week with $30,000. Your job is to analyze the potential outcomes of the game and communicate why you should or should not buy-in.  
 
